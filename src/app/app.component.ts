@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {NavModel} from './models/NavModel';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'PolicumbentUI';
+  links: Array<NavModel> = [
+    new NavModel('./bikes', 'Bikes'),
+    new NavModel('./weather', 'Weather Station')
+  ];
 }

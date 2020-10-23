@@ -1,0 +1,21 @@
+<div class="content">
+  <p>day-data works!</p>
+  <router-outlet></router-outlet>
+  <div class="bottom">
+    <mat-divider></mat-divider>
+    <nav mat-tab-nav-bar
+         mat-align-tabs="end"
+         class="mat-tab-group-inverted-header"
+         color="accent">
+      <!--  <button mat-icon-button id="hamburger" (click)="sidenav.toggle()">-->
+      <!--    <mat-icon >menu</mat-icon>-->
+      <!--  </button>-->
+      <a mat-tab-link
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive"
+         [routerLink]="link.url"
+         *ngFor="let link of links">{{link.name}}</a>
+    </nav>
+  </div>
+
+</div>

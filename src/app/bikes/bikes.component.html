@@ -1,0 +1,27 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav opened mode="side">
+    <mat-nav-list>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Bike</mat-label>
+        <mat-select [(value)]="bikeName" (selectionChange)="bikeSelection($event)">
+          <!--          <mat-option *ngFor="let food of foods" [value]="food.value">-->
+          <!--            {{food.viewValue}}-->
+          <!--          </mat-option>-->
+          <mat-option value="taurus">Taurus</mat-option>
+          <mat-option value="taurusx">TaurusX</mat-option>
+          <mat-option value="antelope">Antelope</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div *ngIf="bikeName !== undefined">
+        <a mat-list-item [routerLink]="'./' + bikeName + '/activity'"> Activity </a>
+        <a mat-list-item [routerLink]="'./' + bikeName + '/settings'"> Settings </a>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="height: 88vh;">
+
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

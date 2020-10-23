@@ -1,0 +1,32 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav opened mode="side">
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'..'"> Undo </a>
+      <mat-list-item disabled> Activity </mat-list-item>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Device</mat-label>
+        <mat-select [(value)]="device" (selectionChange)="deviceSelection($event)">
+          <mat-option value="all">All</mat-option>
+          <mat-option value="bike">Bike</mat-option>
+          <mat-option value="marta">Marta</mat-option>
+          <mat-option value="garmin">Garmin</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--      <label class="dates_label">Dates</label>-->
+      <div *ngIf="device!==undefined">
+        <mat-list-item *ngFor="let date of dates" [routerLink]="'./' + device + '/' + date + '/chart'">{{date}}</mat-list-item>
+      </div>
+      <!--      <a mat-list-item [routerLink]="'/create-account'"> Activity </a>-->
+      <!--      <a mat-list-item [routerLink]="'/contacts'"> Contacts </a>-->
+      <!--      <a mat-list-item [routerLink]="'/create-contact'"> Create Contact </a>-->
+      <!--      <a mat-list-item [routerLink]="'/activities'"> Activities </a>-->
+      <!--      <a mat-list-item [routerLink]="'/create-activity'"> Create Activity </a>-->
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="height: 88vh;">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
