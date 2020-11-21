@@ -7,3 +7,11 @@
   right: 0;
   width: 100%;
 }
+
+.yellow {
+  background-color: black;
+}
+
+.foreground {
+  z-index: 9;
+}

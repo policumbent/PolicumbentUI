@@ -4,12 +4,9 @@
       <mat-form-field appearance="fill">
         <mat-label>Select Bike</mat-label>
         <mat-select [(value)]="bikeName" (selectionChange)="bikeSelection($event)">
-          <!--          <mat-option *ngFor="let food of foods" [value]="food.value">-->
-          <!--            {{food.viewValue}}-->
-          <!--          </mat-option>-->
-          <mat-option value="taurus">Taurus</mat-option>
-          <mat-option value="taurusx">TaurusX</mat-option>
-          <mat-option value="antelope">Antelope</mat-option>
+          <mat-option *ngFor="let bike of bikes" value="{{bike.name}}">{{bike.name | titlecase}}</mat-option>
+<!--          <mat-option value="taurusx">TaurusX</mat-option>-->
+<!--          <mat-option value="antelope">Antelope</mat-option>-->
         </mat-select>
       </mat-form-field>
       <div *ngIf="bikeName !== undefined">

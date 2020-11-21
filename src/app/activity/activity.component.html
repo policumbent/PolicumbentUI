@@ -14,7 +14,7 @@
       </mat-form-field>
       <!--      <label class="dates_label">Dates</label>-->
       <div *ngIf="device!==undefined">
-        <mat-list-item *ngFor="let date of dates" [routerLink]="'./' + device + '/' + date + '/chart'">{{date}}</mat-list-item>
+        <mat-list-item *ngFor="let date of dates" [routerLink]="'./' + device + '/' + date + '/charts'">{{date}}</mat-list-item>
       </div>
       <!--      <a mat-list-item [routerLink]="'/create-account'"> Activity </a>-->
       <!--      <a mat-list-item [routerLink]="'/contacts'"> Contacts </a>-->

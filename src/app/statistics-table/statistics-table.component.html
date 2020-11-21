@@ -1,0 +1,24 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="min">
+    <mat-header-cell *matHeaderCellDef> Min </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.min}} {{element.unit}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="max">
+    <mat-header-cell *matHeaderCellDef> Max </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.max}} {{element.unit}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="average">
+    <mat-header-cell *matHeaderCellDef> Average </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.average}} {{element.unit}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

@@ -1,5 +1,7 @@
 <div class="content">
-  <p>day-data works!</p>
+  <mat-toolbar class="foreground mat-elevation-z8" color="accent">
+    <span>{{bike | titlecase}} - {{date}} - {{device | titlecase}}</span>
+  </mat-toolbar>
   <router-outlet></router-outlet>
   <div class="bottom">
     <mat-divider></mat-divider>

@@ -22,7 +22,21 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { DayDataComponent } from './day-data/day-data.component';
 import { DeviceComponent } from './device/device.component';
 import { ChartsComponent } from './charts/charts.component';
-
+import { LoginButtonComponent } from './login-button/login-button.component';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {JwtInterceptor} from './services/JwtInterceptor';
+import {MatInputModule} from '@angular/material/input';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTableModule} from '@angular/material/table';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatCardModule} from '@angular/material/card';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
 
 @NgModule({
   declarations: [
@@ -36,22 +50,57 @@ import { ChartsComponent } from './charts/charts.component';
     StatisticsComponent,
     DayDataComponent,
     DeviceComponent,
-    ChartsComponent
+    ChartsComponent,
+    LoginButtonComponent,
+    LoginDialogComponent,
+    StatisticsTableComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
     MatToolbarModule,
-    MatIconModule,
+    BrowserAnimationsModule,
     MatTabsModule,
+    MatIconModule,
     MatSidenavModule,
     MatListModule,
-    MatButtonModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatButtonModule,
+    MatSelectModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    MatToolbarModule,
+    BrowserAnimationsModule,
+    MatTabsModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTableModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    NgxSliderModule,
+    MatDatepickerModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {duration: 2500}
+    }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

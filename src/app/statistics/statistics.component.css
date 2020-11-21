@@ -1,0 +1,8 @@
+.slider {
+  position: relative;
+  padding: 2em;
+}
+.content {
+  height: 76vh;
+  overflow-y: auto;
+}

@@ -1,1 +1,12 @@
-<p>statistics works!</p>
+<section class="content">
+  <div class="slider">
+    <ngx-slider
+      [(value)]="minValue"
+      [(highValue)]="maxValue"
+      [options]="options"
+      (valueChange)="filterData()"
+      (highValueChange)="filterData()"
+    ></ngx-slider>
+  </div>
+  <app-statistics-table [data]="filteredData"></app-statistics-table>
+</section>
