@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivityService} from '../services/activity.service';
 import {Options} from '@angular-slider/ngx-slider';
+import {BikeData} from '../models/bikeData.model';
+import {ActivatedRoute} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {defaultThrottleConfig} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-statistics',
@@ -10,84 +14,104 @@ import {Options} from '@angular-slider/ngx-slider';
 export class StatisticsComponent implements OnInit {
   minValue = 50;
   maxValue = 200;
-  allData: any[];
-  filteredData: any[];
+  device: string;
+  bikeName: string;
+  date: string;
+  allData: BikeData[];
+  filteredData: BikeData[];
   options: Options;
-  constructor(private activityService: ActivityService) {
-    // activityService.getData(
-    //   'taurus',
-    //   '2010-10-07 14:44:25',
-    //   '2030-10-07 16:32:29',
-    //   '1',
-    //   true)
-    //   .subscribe(data => console.log(data));
-    this.allData = this.demoData();
+  chart = {
+    title: 'test',
+    type: 'LineChart',
+    data: [
+      ['London', 8136000],
+    ['New York', 8538000],
+  ['Paris', 2244000],
+  ['Berlin', 3470000],
+  ['Kairo', 19500000]]
+  };
+  constructor(
+    private service: ActivityService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
+  ) {
+    this.device = route.snapshot.parent.params.device;
+    this.bikeName = route.snapshot.parent.parent.parent.params.bikeName;
+    this.date = route.snapshot.parent.params.date;
+    console.log(this.device);
+    console.log(this.bikeName);
+    console.log(this.date);
+    this.allData = [];
     this.filteredData = this.allData;
-    this.minValue = this.minTime();
-    this.maxValue = this.maxTime();
-    this.options = {
-      floor: this.minTime(),
-      ceil: this.maxTime(),
-      translate: (value: number): string => {
-        const d = new Date(value);
-        // todo: scriverla meglio
-        return `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
-      }
-    };
+    this.minValue = 0;
+    this.maxValue = 0;
+    this.getData();
   }
 
   minTime(): number {
-    return this.allData.map(t => t.timestamp.getTime())
+    if (this.allData.length === 0){
+      return 0;
+    }
+    return this.allData.map(t => t.timestampT.getTime())
       .reduce((a, b) => a < b ? a : b);
   }
 
   maxTime(): number {
-    return this.allData.map(t => t.timestamp.getTime())
+    if (this.allData.length === 0){
+      return 0;
+    }
+    return this.allData.map(t => t.timestampT.getTime())
       .reduce((a, b) => a > b ? a : b);
   }
 
-  demoData(): any[] {
-    const data = [];
-    let speed = 100;
-    let speedGps = 100;
-    let heartrate = 100;
-    let gear = 100;
-    let cadence = 100;
-    let power = 1000;
-    let temperature = 20;
-    let humidity = 20;
-
-    for (let i = 0; i < 14400; i++) {
-      speed += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-      gear += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-      speedGps += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 104);
-      power += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-      cadence += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-      temperature += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      humidity += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-      // heartrate += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-      heartrate = i;
-      // pp += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-      data.push({
-        // tslint:disable-next-line:max-line-length
-        timestamp: new Date(2020, 9, 20, 0, 0, i),
-        speed,
-        speedGps,
-        power,
-        gear,
-        heartrate,
-        cadence,
-        temperature,
-        humidity
-      });
-    }
-    return data;
+  getData(): void{
+    this.service.getData(
+      this.bikeName,
+      `${this.date} 00:00:00`,
+      `${this.date} 23:59:59`,
+      this.service.getDeviceInt(this.device)
+      ).subscribe(
+        data => {
+          // console.log(data);
+          this.allData = data;
+          this.filteredData = data;
+          this.filterChart();
+          if (data.length > 0) {
+            this.minValue = this.minTime();
+            this.maxValue = this.maxTime();
+            this.options = {
+              floor: this.minTime(),
+              ceil: this.maxTime(),
+              translate: (value: number): string => {
+                const d = new Date(value);
+                // todo: scriverla meglio
+                return `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+              }
+            };
+          }
+        },
+      error => {
+          console.log(error);
+          this.snackBar.open('Errore durante il recupero dei dati.', 'Chiudi.');
+      }
+    );
   }
 
   filterData(): void {
-    this.filteredData = this.allData
-      .filter(t => t.timestamp.getTime() > this.minValue && t.timestamp.getTime() < this.maxValue);
-}
+    if (this.allData.length > 0){
+      this.filteredData = this.allData
+        .filter(t => t.timestampT.getTime() > this.minValue && t.timestampT.getTime() < this.maxValue);
+      this.filterChart();
+    }
+  }
+
+  filterChart(): void {
+    if (this.filteredData.length === 0) {
+      return;
+    }
+    this.chart.data = this.filteredData.map(e => [e.timestamp, e.speed]);
+    console.log(this.chart.data);
+  }
 
   ngOnInit(): void {
   }

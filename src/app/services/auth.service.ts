@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class AuthService {
 
-  private host = 'http://localhost:8080';
+  private host = 'https://poliserver.duckdns.org:9002';
   private url = this.host + '/authenticate';
   private urlRegister = this.host + '/register';
 

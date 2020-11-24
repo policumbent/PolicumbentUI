@@ -28,12 +28,20 @@ export class StatisticsTableComponent implements OnInit {
       accXMax: new TableElement('accXMax', ''),
       accYMax: new TableElement('accYMax', ''),
       accZMax: new TableElement('accZMax', ''),
-      cpuTemp: new TableElement('cpuTemp', '')
+      cpuTemp: new TableElement('cpuTemp', '°C')
     };
     data.forEach(e =>
       Object.keys(v).forEach(k => v[k].addValue(e[k]))
     );
     this.dataSource = Object.values(v);
+    console.log(v.accX.count);
+  }
+
+  getValue(value: number, unit: string): string{
+    if (value === Number.MAX_SAFE_INTEGER || value === Number.MIN_SAFE_INTEGER){
+      return 'NO DATA';
+    }
+    return `${value} ${unit}`;
   }
 
   constructor() { }

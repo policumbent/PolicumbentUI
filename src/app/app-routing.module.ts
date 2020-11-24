@@ -10,16 +10,19 @@ import {StatisticsComponent} from './statistics/statistics.component';
 import {DayDataComponent} from './day-data/day-data.component';
 import {DeviceComponent} from './device/device.component';
 import {ChartsComponent} from './charts/charts.component';
+import {AuthGuard} from './services/auth.guard';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
   {path: 'bikes',
+    canActivate: [AuthGuard],
     children: [
       {path: '', component: BikesComponent, children: [
           {path: '', component: WelcomeComponent },
           {path: ':bikeName', component: InfoBikeComponent}
         ]},
       {path: ':bikeName/activity', component: ActivityComponent, children: [
+          {path: '', component: InfoBikeComponent},
           {path: ':device', children: [
               {path: '',  component: DeviceComponent},
               {path: ':date', component: DayDataComponent, children: [
@@ -31,7 +34,9 @@ const routes: Routes = [
 
         ]}
     ]},
-  {path: 'weather', component: WeatherComponent}
+  {path: 'weather',
+    canActivate: [AuthGuard],
+    component: WeatherComponent}
 ];
 
 @NgModule({

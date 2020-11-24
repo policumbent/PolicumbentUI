@@ -8,7 +8,7 @@ import {catchError, map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class BikeService {
-  private host = 'http://localhost:8080';
+  private host = 'https://poliserver.duckdns.org:9002';
   private url = this.host + '/v3/bikes';
 
   constructor(private httpClient: HttpClient) { }

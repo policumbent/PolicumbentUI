@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {BikeService} from '../services/bike.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-device',
@@ -6,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./device.component.css']
 })
 export class DeviceComponent implements OnInit {
+  deviceName: string;
 
-  constructor() { }
+  constructor(
+    private bikeService: BikeService,
+    private route: ActivatedRoute
+  ) {
+    this.deviceName = this.route.snapshot.params.device;
+    this.route.params.subscribe(p => this.deviceName = p.device);
+  }
 
   ngOnInit(): void {
   }

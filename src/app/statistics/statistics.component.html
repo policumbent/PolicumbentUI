@@ -1,5 +1,5 @@
 <section class="content">
-  <div class="slider">
+  <div *ngIf="allData.length > 0" class="slider">
     <ngx-slider
       [(value)]="minValue"
       [(highValue)]="maxValue"
@@ -7,6 +7,9 @@
       (valueChange)="filterData()"
       (highValueChange)="filterData()"
     ></ngx-slider>
+
   </div>
+  <google-chart [type]="chart.type" [data]="chart.data" [options]="{legend: {position: 'none'}}">
+  </google-chart>
   <app-statistics-table [data]="filteredData"></app-statistics-table>
 </section>

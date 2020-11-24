@@ -37,6 +37,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
+import {GoogleChartsModule} from 'angular-google-charts';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { StatisticsTableComponent } from './statistics-table/statistics-table.co
     MatSnackBarModule,
     MatSelectModule,
     NgxSliderModule,
+    GoogleChartsModule,
     MatDatepickerModule
   ],
   providers: [
