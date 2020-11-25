@@ -6,6 +6,10 @@ import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import am4themes_material from '@amcharts/amcharts4/themes/material';
+import {BikeData} from '../models/bikeData.model';
+import {ActivityService} from '../services/activity.service';
+import {ActivatedRoute} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-charts',
@@ -13,9 +17,20 @@ import am4themes_material from '@amcharts/amcharts4/themes/material';
   styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements AfterViewInit, OnDestroy {
+  data: BikeData[];
+  bikeName: string = 'taurusx';
+  deviceName: string = 'marta';
+  date: string = '2020-11-24';
+
   private chart: am4charts.XYChart;
 
-  constructor(@Inject(PLATFORM_ID) private platformId, private zone: NgZone) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId,
+    private zone: NgZone,
+    private service: ActivityService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
+  ) {}
 
   // Run the function only in the browser
   browserOnly(f: () => void): void {
@@ -27,51 +42,53 @@ export class ChartsComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.getData();
+  }
+
+  setAxisProperty(size: number, axis: am4charts.ValueAxis, interfaceColors: am4core.InterfaceColorSet): void {
+    axis.tooltip.disabled = true;
+    axis.zIndex = 1;
+    axis.marginTop = 10;
+    axis.renderer.baseGrid.disabled = true;
+    axis.renderer.inside = true;
+    axis.height = am4core.percent(size);
+    axis.renderer.labels.template.verticalCenter = 'bottom';
+    axis.renderer.labels.template.padding(2, 2, 2, 2);
+    // speedAxis.renderer.maxLabelPosition = 0.95;
+    axis.renderer.fontSize = '0.8em';
+    // uncomment these lines to fill plot area of this axis with some color
+    axis.renderer.gridContainer.background.fill = interfaceColors.getFor('alternativeBackground');
+    axis.renderer.gridContainer.background.fillOpacity = 0.05;
+  }
+
+  setOppositeAxisProperty(size: number, axis: am4charts.ValueAxis, syncAxis: am4charts.ValueAxis,): void{
+    axis.renderer.opposite = true;
+    axis.renderer.labels.template.verticalCenter = 'bottom';
+    axis.renderer.labels.template.padding(2, 2, 2, 2);
+    axis.renderer.maxLabelPosition = 0.95;
+    axis.renderer.fontSize = '0.8em';
+    axis.syncWithAxis = syncAxis;
+    axis.renderer.inside = true;
+    axis.tooltip.disabled = true;
+    axis.height = am4core.percent(size);
+  }
+
+  loadChart(): void {
     // Chart code goes in here
     this.browserOnly(() => {
+
+      // configurazione generale grafico
       am4core.useTheme(am4themes_animated);
       // am4core.options.minPolylineStep = 5;
       am4core.useTheme(am4themes_material);
-
       const chart = am4core.create('chartdiv', am4charts.XYChart);
-
       chart.paddingRight = 20;
-
-
-      const data = [];
-      let speed = 100;
-      let speedGPS = 100;
-      let heartrate = 100;
-      let gear = 100;
-      let cadence = 100;
-      let power = 1000;
-
-      for (let i = 0; i < 14400; i++) {
-        speed += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-        gear += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 100);
-        speedGPS += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 104);
-        power += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-        cadence += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-        // heartrate += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-        heartrate = i;
-        // pp += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 1000);
-        data.push({
-          // tslint:disable-next-line:max-line-length
-            date: new Date(2020, 9, 20, 0, 0, i),
-            speed,
-            speedGPS,
-            power,
-            gear,
-            heartrate,
-          cadence
-        });
-      }
-
       const interfaceColors = new am4core.InterfaceColorSet();
 
-      chart.data = data;
+      chart.data = this.data;
       // the following line makes value axes to be arranged vertically.
       chart.leftAxesContainer.layout = 'vertical';
+      chart.rightAxesContainer.layout = 'vertical';
 
       // uncomment this line if you want to change order of axes
       // chart.bottomAxesContainer.reverseOrder = true;
@@ -85,64 +102,89 @@ export class ChartsComponent implements AfterViewInit, OnDestroy {
       dateAxis.renderer.ticks.template.strokeOpacity = 0.2;
       dateAxis.groupData = true;
       dateAxis.renderer.minGridDistance = 50;
-
+      dateAxis.events.on('startchanged', dateAxisChanged);
+      dateAxis.events.on('endchanged', dateAxisChanged);
+      function dateAxisChanged(ev): void {
+        const start = new Date(ev.target.minZoomed);
+        const end = new Date(ev.target.maxZoomed);
+        console.log('New range: ' + start + ' -- ' + end);
+      }
 
       // these two lines makes the axis to be initially zoomed-in
       // dateAxis.start = 0.7;
       // dateAxis.keepSelection = true;
 
-      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.tooltip.disabled = true;
-      valueAxis.zIndex = 1;
-      valueAxis.renderer.baseGrid.disabled = true;
 
-// Set up axis
-      valueAxis.renderer.inside = true;
-      valueAxis.height = am4core.percent(25);
-      valueAxis.renderer.labels.template.verticalCenter = 'bottom';
-      valueAxis.renderer.labels.template.padding(2, 2, 2, 2);
-// valueAxis.renderer.maxLabelPosition = 0.95;
-      valueAxis.renderer.fontSize = '0.8em';
+      // impostazioni assi velocità
+      const speedAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setAxisProperty(25, speedAxis, interfaceColors);
 
-// uncomment these lines to fill plot area of this axis with some color
-      valueAxis.renderer.gridContainer.background.fill = interfaceColors.getFor('alternativeBackground');
-      valueAxis.renderer.gridContainer.background.fillOpacity = 0.05;
+      // impostazioni assi potenza
+      const powerAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setAxisProperty(25, powerAxis, interfaceColors);
+
+      // impostazioni assi cadenza
+      const cadenceAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setAxisProperty(25, cadenceAxis, interfaceColors);
+
+      // impostazioni assi cadenza
+      const temperatureAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setAxisProperty(25, temperatureAxis, interfaceColors);
+
+      // impostazioni assi cadenza
+      const accelerationAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setAxisProperty(25, accelerationAxis, interfaceColors);
+
+      // per gli opposite si parte dal basso verso l'alto
+      // placeholder perchè l'ultimo non ha il doppio asse
+      const placeholderAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setOppositeAxisProperty(25, placeholderAxis, accelerationAxis);
+
+      // impostazioni assi umidità
+      const humidityAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setOppositeAxisProperty(25, humidityAxis, temperatureAxis);
+
+      // impostazioni assi marcia
+      const gearAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setOppositeAxisProperty(25, gearAxis, cadenceAxis);
+
+      // impostazioni heartrate
+      const heartrateAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setOppositeAxisProperty(25, heartrateAxis, powerAxis);
+
+      // impostazioni heartrate
+      const distanceAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      this.setOppositeAxisProperty(25, distanceAxis, speedAxis);
+
+
+
+
+
+
+
+
+
 
 
       const seriesSpeed = chart.series.push(new am4charts.LineSeries());
-      seriesSpeed.dataFields.dateX = 'date';
+      seriesSpeed.dataFields.dateX = 'timestampT';
       seriesSpeed.dataFields.valueY = 'speed';
       seriesSpeed.tooltipText = '{valueY.value} km/h';
       seriesSpeed.name = 'Speed';
       const seriesSpeedGps = chart.series.push(new am4charts.LineSeries());
-      seriesSpeedGps.dataFields.dateX = 'date';
-      seriesSpeedGps.dataFields.valueY = 'speedGPS';
+      seriesSpeedGps.dataFields.dateX = 'timestampT';
+      seriesSpeedGps.dataFields.valueY = 'speedGps';
       seriesSpeedGps.tooltipText = '{valueY.value} km/h';
       seriesSpeedGps.name = 'SpeedGps';
+      seriesSpeedGps.yAxis = speedAxis;
 
-      const valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis2.tooltip.disabled = true;
 
-// this makes gap between panels
-      valueAxis2.marginTop = 30;
-      valueAxis2.renderer.baseGrid.disabled = true;
-      valueAxis2.renderer.inside = true;
-      valueAxis2.height = am4core.percent(25);
-      valueAxis2.zIndex = 3;
-      valueAxis2.renderer.labels.template.verticalCenter = 'bottom';
-      valueAxis2.renderer.labels.template.padding(2, 2, 2, 2);
-// valueAxis2.renderer.maxLabelPosition = 0.95;
-      valueAxis2.renderer.fontSize = '0.8em';
-
-// uncomment these lines to fill plot area of this axis with some color
-      valueAxis2.renderer.gridContainer.background.fill = interfaceColors.getFor('alternativeBackground');
-      valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
 
       const series2 = chart.series.push(new am4charts.LineSeries());
       series2.height = am4core.percent(25);
-      series2.dataFields.dateX = 'date';
+      series2.dataFields.dateX = 'timestampT';
       series2.dataFields.valueY = 'power';
-      series2.yAxis = valueAxis2;
+      series2.yAxis = powerAxis;
       series2.tooltipText = '{valueY.value}W';
       series2.name = 'Power';
 
@@ -158,7 +200,7 @@ export class ChartsComponent implements AfterViewInit, OnDestroy {
       valueAxis3.height = am4core.percent(25);
       valueAxis3.renderer.labels.template.verticalCenter = 'bottom';
       valueAxis3.renderer.labels.template.padding(2, 2, 2, 2);
-// valueAxis.renderer.maxLabelPosition = 0.95;
+// speedAxis.renderer.maxLabelPosition = 0.95;
       valueAxis3.renderer.fontSize = '0.8em';
 
 // uncomment these lines to fill plot area of this axis with some color
@@ -166,44 +208,27 @@ export class ChartsComponent implements AfterViewInit, OnDestroy {
       valueAxis3.renderer.gridContainer.background.fillOpacity = 0.05;
 
       const series3 = chart.series.push(new am4charts.LineSeries());
-      series3.dataFields.dateX = 'date';
+      series3.dataFields.dateX = 'timestampT';
       series3.dataFields.valueY = 'heartrate';
       series3.tooltipText = '{valueY.value} bpm';
       series3.name = 'Heart Rate';
-      series3.yAxis = valueAxis3;
+      series3.yAxis = heartrateAxis;
 
-      const valueAxis4 = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis4.tooltip.disabled = true;
-      valueAxis4.zIndex = 1;
-      valueAxis4.renderer.baseGrid.disabled = true;
 
-// Set up axis
-      valueAxis4.marginTop = 30;
-
-      valueAxis4.renderer.inside = true;
-      valueAxis4.height = am4core.percent(25);
-      valueAxis4.renderer.labels.template.verticalCenter = 'bottom';
-      valueAxis4.renderer.labels.template.padding(2, 2, 2, 2);
-// valueAxis.renderer.maxLabelPosition = 0.95;
-      valueAxis4.renderer.fontSize = '0.8em';
-
-// uncomment these lines to fill plot area of this axis with some color
-      valueAxis4.renderer.gridContainer.background.fill = interfaceColors.getFor('alternativeBackground');
-      valueAxis4.renderer.gridContainer.background.fillOpacity = 0.05;
 
       const series4 = chart.series.push(new am4charts.LineSeries());
-      series4.dataFields.dateX = 'date';
+      series4.dataFields.dateX = 'timestampT';
       series4.dataFields.valueY = 'cadence';
       series4.tooltipText = '{valueY.value} rpm';
       series4.name = 'Cadence';
-      series4.yAxis = valueAxis4;
+      series4.yAxis = cadenceAxis;
 
       const series5 = chart.series.push(new am4charts.LineSeries());
-      series5.dataFields.dateX = 'date';
+      series5.dataFields.dateX = 'timestampT';
       series5.dataFields.valueY = 'gear';
       series5.tooltipText = '{valueY.value}';
       series5.name = 'Gear';
-      series5.yAxis = valueAxis4;
+      series5.yAxis = gearAxis;
 
       chart.cursor = new am4charts.XYCursor();
       chart.cursor.xAxis = dateAxis;
@@ -216,6 +241,25 @@ export class ChartsComponent implements AfterViewInit, OnDestroy {
 
       this.chart = chart;
     });
+  }
+
+  getData(): void{
+    this.service.getData(
+      this.bikeName,
+      `${this.date} 00:00:00`,
+      `${this.date} 23:59:59`,
+      this.service.getDeviceInt(this.deviceName)
+    ).subscribe(
+      data => {
+        console.log(data);
+        this.data = data;
+        this.loadChart();
+      },
+      error => {
+        console.log(error);
+        this.snackBar.open('Errore durante il recupero dei dati.', 'Chiudi.');
+      }
+    );
   }
 
   ngOnDestroy(): void {

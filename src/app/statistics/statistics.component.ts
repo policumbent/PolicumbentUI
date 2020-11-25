@@ -109,7 +109,7 @@ export class StatisticsComponent implements OnInit {
     if (this.filteredData.length === 0) {
       return;
     }
-    this.chart.data = this.filteredData.map(e => [e.timestamp, e.speed]);
+    this.chart.data = this.filteredData.map(e => [e.timestampT.getTime(), e.speed]);
     console.log(this.chart.data);
   }
 
