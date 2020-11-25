@@ -23,12 +23,7 @@ export class StatisticsComponent implements OnInit {
   chart = {
     title: 'test',
     type: 'LineChart',
-    data: [
-      ['London', 8136000],
-    ['New York', 8538000],
-  ['Paris', 2244000],
-  ['Berlin', 3470000],
-  ['Kairo', 19500000]]
+    data: []
   };
   constructor(
     private service: ActivityService,
