@@ -3,6 +3,7 @@ import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {BikeData} from '../models/bikeData.model';
+import { EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,28 @@ export class ActivityService {
           return throwError('ActivityService getDates error: ' + err.message);
         })
       );
+  }
+
+  uploadFile(bikeName: string, file: File): Observable<any>{
+    let c;
+    const body = new FormData();
+    body.append('file', file);
+    switch (file.name.substr(file.name.length - 3)) {
+      case 'fit':
+        c = this.httpClient.post<Array<string>>(`${this.url}/${bikeName}/fit`, body);
+        break;
+      case 'csv':
+        c = this.httpClient.post<Array<string>>(`${this.url}/${bikeName}/csv`, body);
+        break;
+      default:
+        return EMPTY;
+    }
+    return c.pipe(
+      catchError(err => {
+        console.error(err);
+        return throwError('ActivityService uploadFile error: ' + err.message);
+      })
+    );
   }
 
   getDeviceInt(deviceName: string): number{

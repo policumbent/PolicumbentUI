@@ -1,0 +1,16 @@
+.content {
+  padding: 2em;
+}
+
+mat-form-field {
+  margin: 1em 0;
+  display: block;
+}
+
+button {
+  margin-right: 1em;
+}
+
+mat-progress-bar {
+  margin-top: 2em;
+}

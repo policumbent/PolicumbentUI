@@ -10,6 +10,7 @@
         </mat-select>
       </mat-form-field>
       <div *ngIf="bikeName !== undefined">
+        <a mat-list-item [routerLink]="'./' + bikeName + '/upload'"> Upload </a>
         <a mat-list-item [routerLink]="'./' + bikeName + '/activity'"> Activity </a>
         <a mat-list-item [routerLink]="'./' + bikeName + '/settings'"> Settings </a>
       </div>

@@ -1,0 +1,27 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav opened mode="side">
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'..'"> Undo </a>
+      <mat-list-item disabled> Upload </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="height: 88vh;">
+      <div class="content">
+        <h1>Upload activity</h1>
+        <form [formGroup]="formGroup">
+          <mat-form-field>
+            <ngx-mat-file-input [disabled]="uploading" formControlName="requiredFile" [accept]="'.fit,.csv'" placeholder="Activity file" valuePlaceholder="Select a file" required></ngx-mat-file-input>
+            <mat-icon matSuffix>folder</mat-icon>
+            <mat-error *ngIf="checkError('requiredFile')">No file selected.</mat-error>
+          </mat-form-field>
+          <!--    <label>{{labelValue}}</label>-->
+          <button [disabled]="uploading" mat-raised-button color="primary" (click)="upload()">Upload</button>
+          <button [disabled]="uploading" class="right" mat-raised-button color="warn" mat-dialog-close="">Cancel</button>
+          <mat-progress-bar *ngIf="uploading" mode="indeterminate"></mat-progress-bar>
+        </form>
+      </div>
+
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

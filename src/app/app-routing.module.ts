@@ -11,6 +11,7 @@ import {DayDataComponent} from './day-data/day-data.component';
 import {DeviceComponent} from './device/device.component';
 import {ChartsComponent} from './charts/charts.component';
 import {AuthGuard} from './services/auth.guard';
+import {UploadComponent} from './upload/upload.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
@@ -32,7 +33,8 @@ const routes: Routes = [
                 ] },
             ]},
 
-        ]}
+        ]},
+      {path: ':bikeName/upload', component: UploadComponent }
     ]},
   {path: 'weather',
     canActivate: [AuthGuard],

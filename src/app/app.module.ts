@@ -38,6 +38,10 @@ import {MatCardModule} from '@angular/material/card';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component';
 import {GoogleChartsModule} from 'angular-google-charts';
+import { UploadComponent } from './upload/upload.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 
 @NgModule({
   declarations: [
@@ -54,7 +58,8 @@ import {GoogleChartsModule} from 'angular-google-charts';
     ChartsComponent,
     LoginButtonComponent,
     LoginDialogComponent,
-    StatisticsTableComponent
+    StatisticsTableComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +95,9 @@ import {GoogleChartsModule} from 'angular-google-charts';
     MatSelectModule,
     NgxSliderModule,
     GoogleChartsModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MaterialFileInputModule,
+    MatProgressBarModule
   ],
   providers: [
     {
