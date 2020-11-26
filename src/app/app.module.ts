@@ -41,6 +41,7 @@ import {GoogleChartsModule} from 'angular-google-charts';
 import { UploadComponent } from './upload/upload.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SelectionChartComponent } from './selection-chart/selection-chart.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     LoginButtonComponent,
     LoginDialogComponent,
     StatisticsTableComponent,
-    UploadComponent
+    UploadComponent,
+    SelectionChartComponent
   ],
   imports: [
     BrowserModule,

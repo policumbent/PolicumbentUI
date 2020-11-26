@@ -232,7 +232,7 @@ export class ChartsComponent implements OnDestroy {
       scrollbarX.series.push(seriesSpeed);
       // scrollbarX.marginBottom = 20;
       chart.scrollbarX = scrollbarX;
-      chart.legend = new am4charts.Legend();
+      // chart.legend = new am4charts.Legend();
 
       this.chart = chart;
     });

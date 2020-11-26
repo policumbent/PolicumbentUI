@@ -30,4 +30,11 @@ export class TableElement {
     this.count++;
     this.sum += value;
   }
+
+  reset(): void{
+    this.min = Number.MAX_SAFE_INTEGER;
+    this.max = Number.MIN_SAFE_INTEGER;
+    this.sum = 0;
+    this.count = 0;
+  }
 }
