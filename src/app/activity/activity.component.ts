@@ -1,26 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NavModel} from '../models/NavModel';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSelectChange} from '@angular/material/select';
 import {ActivityService} from '../services/activity.service';
 import {number} from '@amcharts/amcharts4/core';
+import {MatSidenav} from '@angular/material/sidenav';
+import {SidenavService} from '../services/sidenav.service';
 
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
   styleUrls: ['./activity.component.css']
 })
-export class ActivityComponent implements OnInit {
+export class ActivityComponent implements OnDestroy, OnInit {
   dates: string[] = [];
   device: string;
   bikeName: string;
   sub: Subscription;
+  subSidenav: Subscription;
+
+  @ViewChild(MatSidenav)
+  sidenav: MatSidenav;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: ActivityService) {
+    private service: ActivityService,
+    private sidenavService: SidenavService) {
     console.log(route.snapshot.firstChild.params);
     this.sub = router.events.subscribe( data => {
       if (route.snapshot.firstChild.firstChild !== null) {
@@ -29,9 +36,14 @@ export class ActivityComponent implements OnInit {
         this.getDates(this.bikeName, this.device, 2);
       }
     });
+    this.subSidenav = sidenavService.getMessage().subscribe(data => data.open ? this.sidenav.open() : this.sidenav.close());
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.subSidenav.unsubscribe();
   }
 
   deviceSelection(event: MatSelectChange): void {

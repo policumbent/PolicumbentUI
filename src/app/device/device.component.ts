@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class DeviceComponent implements OnInit {
   deviceName: string;
+  bikeName: string;
 
   constructor(
     private bikeService: BikeService,
@@ -17,6 +18,8 @@ export class DeviceComponent implements OnInit {
   ) {
     this.deviceName = this.route.snapshot.params.device;
     this.route.params.subscribe(p => this.deviceName = p.device);
+    this.bikeName = this.route.snapshot.parent.parent.params.bikeName;
+
   }
 
   ngOnInit(): void {

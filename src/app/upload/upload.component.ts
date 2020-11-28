@@ -1,34 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivityService} from '../services/activity.service';
 import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Subscription} from 'rxjs';
+import {MatSidenav} from '@angular/material/sidenav';
+import {SidenavService} from '../services/sidenav.service';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
   bikeName: string;
   uploading = false;
+  subSidenav: Subscription;
+
+  @ViewChild(MatSidenav)
+  sidenav: MatSidenav;
 
   constructor(
     private fb: FormBuilder,
     private service: ActivityService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sidenavService: SidenavService
   ) {
     this.formGroup = this.fb.group({
       requiredFile: [undefined, [Validators.required]]
     });
     this.bikeName = route.snapshot.params.bikeName;
+    this.subSidenav = sidenavService.getMessage().subscribe(data => data.open ? this.sidenav.open() : this.sidenav.close());
   }
 
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    this.subSidenav.unsubscribe();
+  }
   public checkError(controlName: string): boolean {
     return this.formGroup.controls[controlName].invalid;
   }

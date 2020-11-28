@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row class="mat-elevation-z8">
+<!--    <button mat-icon-button (click)="changeSidenavState()">-->
+<!--      <mat-icon>menu</mat-icon>-->
+<!--    </button>-->
     <a class="logo" [routerLink]="['/']"><span>Policumbent UI</span></a>
     <span class="fill_space"></span>
     <app-login-button></app-login-button>
@@ -15,10 +18,10 @@
 <!--  </button>-->
 <!--</mat-toolbar>-->
 
-<nav mat-tab-nav-bar mat-align-tabs="end">
-<!--  <button mat-icon-button id="hamburger" (click)="sidenav.toggle()">-->
-<!--    <mat-icon >menu</mat-icon>-->
-<!--  </button>-->
+<nav *ngIf="authService.isLogged()" mat-tab-nav-bar mat-align-tabs="end">
+  <button mat-icon-button id="hamburger" (click)="changeSidenavState()">
+    <mat-icon >menu</mat-icon>
+  </button>
   <a mat-tab-link
      routerLinkActive #rla="routerLinkActive"
      [active]="rla.isActive"

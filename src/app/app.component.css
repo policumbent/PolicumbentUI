@@ -5,3 +5,8 @@
   color: white;
   text-decoration: none;
 }
+#hamburger {
+  position: absolute;
+  left: 5px;
+  float: left;
+}
