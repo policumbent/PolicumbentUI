@@ -6,7 +6,7 @@ import {Bike} from '../models/bike.model';
 @Injectable({ providedIn: 'root' })
 export class CsvService {
   private subject = new Subject<any>();
-  downloadCsv(open: boolean): void {
+  downloadCsv(): void {
     this.subject.next({ message: 'csv' });
   }
 
