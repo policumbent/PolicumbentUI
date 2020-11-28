@@ -8,7 +8,7 @@
   <mat-sidenav-content>
     <div style="height: 88vh;">
       <div class="content">
-        <h1>Upload activity</h1>
+        <h1>Upload activity of {{bikeName}}</h1>
         <form [formGroup]="formGroup">
           <mat-form-field>
             <ngx-mat-file-input [disabled]="uploading" formControlName="requiredFile" [accept]="'.fit,.csv'" placeholder="Activity file" valuePlaceholder="Select a file" required></ngx-mat-file-input>

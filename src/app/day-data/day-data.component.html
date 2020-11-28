@@ -1,6 +1,15 @@
 <div class="content">
   <mat-toolbar class="foreground mat-elevation-z8" color="accent">
     <span>{{bike | titlecase}} - {{date}} - {{device | titlecase}}</span>
+    <div class="right" >
+<!--      <button mat-stroked-button color="black">-->
+<!--          {{onlyRun ? 'All Data': 'Only Run'}}-->
+<!--          <mat-icon>directions_run</mat-icon>-->
+<!--      </button>-->
+      <button mat-stroked-button color="black" (click)="buttonsService.downloadCsv()">
+        CSV  <mat-icon>cloud_download</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
   <router-outlet></router-outlet>
   <div class="bottom">

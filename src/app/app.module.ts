@@ -42,6 +42,8 @@ import { UploadComponent } from './upload/upload.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SelectionChartComponent } from './selection-chart/selection-chart.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -99,7 +101,8 @@ import { SelectionChartComponent } from './selection-chart/selection-chart.compo
     GoogleChartsModule,
     MatDatepickerModule,
     MaterialFileInputModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatButtonToggleModule
   ],
   providers: [
     {

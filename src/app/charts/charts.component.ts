@@ -11,6 +11,7 @@ import {ActivityService} from '../services/activity.service';
 import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Subscription} from 'rxjs';
+import {CsvService} from '../services/csv.service';
 
 @Component({
   selector: 'app-charts',
@@ -23,7 +24,9 @@ export class ChartsComponent implements OnDestroy {
   deviceName: string;
   date: string;
   sub: Subscription;
-
+  subCsv: Subscription;
+  startTime: Date;
+  endTime: Date;
   private chart: am4charts.XYChart;
 
   constructor(
@@ -31,11 +34,14 @@ export class ChartsComponent implements OnDestroy {
     private zone: NgZone,
     private service: ActivityService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private csvService: CsvService
   ) {
     this.deviceName = route.snapshot.parent.params.device;
     this.bikeName = route.snapshot.parent.parent.parent.params.bikeName;
     this.date = route.snapshot.parent.params.date;
+    this.startTime = new Date(`${this.date} 00:00:00`);
+    this.endTime = new Date(`${this.date} 23:59:59`);
     this.sub = route.parent.params.subscribe(
       data => {
         // console.log(data);
@@ -45,6 +51,10 @@ export class ChartsComponent implements OnDestroy {
       },
       error => snackBar.open('An error has occured during loading.', 'Close')
     );
+    this.subCsv = csvService.getMessage().subscribe(data =>
+      this.csvService.downloadFile(
+        this.filterData(), this.csvService.getFileName(this.startTime, this.bikeName, this.deviceName)));
+
   }
 
   // Run the function only in the browser
@@ -124,13 +134,13 @@ export class ChartsComponent implements OnDestroy {
       dateAxis.renderer.ticks.template.strokeOpacity = 0.2;
       dateAxis.groupData = true;
       dateAxis.renderer.minGridDistance = 50;
-      dateAxis.events.on('startchanged', dateAxisChanged);
-      dateAxis.events.on('endchanged', dateAxisChanged);
-      function dateAxisChanged(ev): void {
-        const start = new Date(ev.target.minZoomed);
-        const end = new Date(ev.target.maxZoomed);
-        console.log('New range: ' + start + ' -- ' + end);
-      }
+      dateAxis.events.on('startchanged', ev => this.startTime = new Date(ev.target.minZoomed));
+      dateAxis.events.on('endchanged', ev => this.endTime = new Date(ev.target.maxZoomed));
+      // function dateAxisChanged(ev): void {
+      //   this.start= new Date(ev.target.minZoomed);
+      //   const end = new Date(ev.target.maxZoomed);
+      //   console.log('New range: ' + start + ' -- ' + end);
+      // }
 
       // these two lines makes the axis to be initially zoomed-in
       // dateAxis.start = 0.7;
@@ -256,6 +266,13 @@ export class ChartsComponent implements OnDestroy {
       }
     );
   }
+
+  filterData(): BikeData[]{
+    return this.data.filter(e =>
+      e.timestampT.getTime() >= this.startTime.getTime() &&
+      e.timestampT.getTime() <= this.endTime.getTime());
+  }
+
   disposeChart(): void {
     this.browserOnly(() => {
       if (this.chart) {
@@ -268,5 +285,6 @@ export class ChartsComponent implements OnDestroy {
     // Clean up chart when the component is removed
     this.disposeChart();
     this.sub.unsubscribe();
+    this.subCsv.unsubscribe();
   }
 }

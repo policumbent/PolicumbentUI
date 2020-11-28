@@ -15,3 +15,12 @@
 .foreground {
   z-index: 9;
 }
+
+.right {
+  position: absolute;
+  right: 1em;
+  float: right;
+}
+
+.toggle {
+}

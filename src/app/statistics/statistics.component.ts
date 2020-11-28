@@ -6,6 +6,9 @@ import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {defaultThrottleConfig} from 'rxjs/internal-compatibility';
 import {StatisticsTableComponent} from '../statistics-table/statistics-table.component';
+import {Subscription} from 'rxjs';
+import {CsvService} from '../services/csv.service';
+import {Bike} from '../models/bike.model';
 
 @Component({
   selector: 'app-statistics',
@@ -21,6 +24,7 @@ export class StatisticsComponent implements OnInit {
   bikeName: string;
   date: string;
   allData: BikeData[];
+  subCsv: Subscription;
   // filteredData: BikeData[];
 
   @ViewChild(StatisticsTableComponent)
@@ -34,7 +38,8 @@ export class StatisticsComponent implements OnInit {
   constructor(
     private service: ActivityService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private csvService: CsvService
   ) {
     this.device = route.snapshot.parent.params.device;
     this.bikeName = route.snapshot.parent.parent.parent.params.bikeName;
@@ -45,6 +50,10 @@ export class StatisticsComponent implements OnInit {
     console.log(this.bikeName);
     console.log(this.date);
     this.allData = [];
+    this.subCsv = csvService.getMessage().subscribe(data =>
+      this.csvService.downloadFile(
+        this.filterData(), this.csvService.getFileName(this.startTime, this.bikeName, this.device)));
+
     // this.table.setData(allData);
     // this.filteredData = this.allData;
     // this.minValue = 0;
@@ -73,7 +82,7 @@ export class StatisticsComponent implements OnInit {
     );
   }
 
-  filterData(): void {
+  filterData(): BikeData[] {
     if (this.allData.length > 0){
       console.log('filter data');
       const filteredData = this.allData
@@ -82,6 +91,7 @@ export class StatisticsComponent implements OnInit {
           t.timestampT.getTime() < this.endTime.getTime());
       console.log(filteredData.length);
       this.table.setData(filteredData);
+      return filteredData;
     }
   }
 
