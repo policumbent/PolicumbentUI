@@ -1,6 +1,9 @@
-<div class="div" >
-  <div class="div_in">
-    <h2>Work in progress...</h2>
-    <p>Weather station page</p>
+<div class="teams_div">
+  <div class="no-elements" *ngIf="ws.length===0">
+    <h2 >Non esistono stazioni meteo.</h2>
   </div>
+  <div class="center_div">
+    <app-wind-card [wsd]="getData(w.id)" [ws]="w" *ngFor="let w of ws"></app-wind-card>
+  </div>
+<!--  <app-team-card [members]="teamsMembers[team.id]" (deleteTeam)="deleteTeam(team)" [team]="team" *ngFor="let team of teams"></app-team-card>-->
 </div>

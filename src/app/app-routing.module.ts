@@ -12,6 +12,7 @@ import {DeviceComponent} from './device/device.component';
 import {ChartsComponent} from './charts/charts.component';
 import {AuthGuard} from './services/auth.guard';
 import {UploadComponent} from './upload/upload.component';
+import {WorkInProgressComponent} from './work-in-progress/work-in-progress.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
@@ -38,7 +39,9 @@ const routes: Routes = [
     ]},
   {path: 'weather',
     canActivate: [AuthGuard],
-    component: WeatherComponent}
+    component: WeatherComponent, children: [
+      {path: '',  component: WorkInProgressComponent}
+    ]}
 ];
 
 @NgModule({

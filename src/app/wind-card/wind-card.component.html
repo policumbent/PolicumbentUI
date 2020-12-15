@@ -1,0 +1,54 @@
+<mat-card class="weather_card">
+  <mat-card-header>
+    <mat-card-title>{{ws.description}}</mat-card-title>
+    <mat-card-subtitle>Station {{ws.id}} - {{wsd.timestamp}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+      <div class="center_gauge">
+        <ngx-gauge type="arch"
+                   size="130"
+                   min="0"
+                   max="5"
+                   [value]="wsd.windSpeed"
+                   [thresholds]="thresholdConfig"
+                   label="Wind Speed"
+                   append="m/s">
+        </ngx-gauge>
+        <ngx-gauge type="full"
+                   size="100"
+                   [value]="wsd.windDirection"
+                   label="Wind Direction"
+                   append="°N">
+        </ngx-gauge>
+      </div>
+      <div class="center_gauge">
+        <ngx-gauge type="arch"
+                   size="100"
+                   min="5"
+                   max="45"
+                   [value]="wsd.temperature"
+                   label="Temperature"
+                   append="°C">
+        </ngx-gauge>
+        <ngx-gauge type="arch"
+                   size="100"
+                   min="0"
+                   max="100"
+                   [value]="wsd.humidity"
+                   label="Humidity"
+                   append="%">
+        </ngx-gauge>
+        <ngx-gauge type="arch"
+                   size="100"
+                   min="0"
+                   max="5"
+                   [value]="wsd.pressure"
+                   label="Pressure"
+                   append="hPa">
+        </ngx-gauge>
+      </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button color="warn">Details</button>
+  </mat-card-actions>
+</mat-card>

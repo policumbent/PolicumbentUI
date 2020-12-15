@@ -1,6 +1,6 @@
 import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {NavModel} from './models/NavModel';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from './services/auth.service';
 import {Subscription} from 'rxjs';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
@@ -20,11 +20,13 @@ export class AppComponent implements OnDestroy{
     new NavModel('./weather', 'Weather Station')
   ];
   doLogin: Subscription;
+  child: Subscription;
   @ViewChild(LoginButtonComponent)
   loginDialog: LoginButtonComponent;
 
   constructor(
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
+    private router: Router,
     public authService: AuthService,
     private sidenavService: SidenavService) {
     this.doLogin = route.queryParams.subscribe(
@@ -40,5 +42,10 @@ export class AppComponent implements OnDestroy{
 
   ngOnDestroy(): void {
     this.doLogin.unsubscribe();
+    this.child.unsubscribe();
+  }
+
+  isOnBikePage(): boolean {
+    return false;
   }
 }

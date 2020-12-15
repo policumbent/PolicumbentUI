@@ -44,6 +44,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SelectionChartComponent } from './selection-chart/selection-chart.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
+import { WindCardComponent } from './wind-card/wind-card.component';
+import {NgxGaugeModule} from 'ngx-gauge';
 
 
 @NgModule({
@@ -63,7 +66,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     LoginDialogComponent,
     StatisticsTableComponent,
     UploadComponent,
-    SelectionChartComponent
+    SelectionChartComponent,
+    WorkInProgressComponent,
+    WindCardComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +107,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatDatepickerModule,
     MaterialFileInputModule,
     MatProgressBarModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatCardModule,
+    NgxGaugeModule
   ],
   providers: [
     {

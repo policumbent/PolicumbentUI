@@ -1,0 +1,37 @@
+.weather_card {
+  display: inline-block;
+  text-align: left;
+  width: 20em;
+  margin: 1em;
+}
+
+.wind_dir {
+  display: inline-block;
+  text-align: center;
+  height: 40px;
+}
+
+.center_gauge {
+  text-align: center;
+}
+
+ngx-gauge {
+  font-size: 0.5em;
+}
+
+button {
+  width: 100%;
+}
+
+/*ul {*/
+/*  list-style: none; !* Remove default bullets *!*/
+/*}*/
+
+/*ul li::before {*/
+/*  content: "\2022";  !* Add content: \2022 is the CSS Code/unicode for a bullet *!*/
+/*  color: #E91E63; !* Change the color *!*/
+/*  font-weight: bold; !* If you want it to be bold *!*/
+/*  display: inline-block; !* Needed to add space between the bullet and the text *!*/
+/*  width: 1em; !* Also needed for space (tweak if needed) *!*/
+/*  margin-left: -1em; !* Also needed for space (tweak if needed) *!*/
+/*}*/

@@ -19,7 +19,7 @@
 <!--</mat-toolbar>-->
 
 <nav *ngIf="authService.isLogged()" mat-tab-nav-bar mat-align-tabs="end">
-  <button mat-icon-button id="hamburger" (click)="changeSidenavState()">
+  <button *ngIf="isOnBikePage()" mat-icon-button id="hamburger" (click)="changeSidenavState()">
     <mat-icon >menu</mat-icon>
   </button>
   <a mat-tab-link

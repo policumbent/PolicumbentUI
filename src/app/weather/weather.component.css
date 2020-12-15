@@ -1,22 +1,17 @@
-h2{
-  font-size: 3em;
-  padding: 0.5em;
-  font-weight: normal;
+
+.teams_div {
+  margin: 1em;
 }
-p{
-  color: #7f8c8d;
+
+.no-elements{
+  text-align: center;
+}
+.no-elements h2{
+  margin-top: 20%;
   font-weight: lighter;
+  color: #7f8c8d;
 }
-.div {
-  font-size: 130%;
+
+.center_div {
   text-align: center;
-  height: calc(100vh - 180px);
-}
-.div_in {
-  text-align: center;
-  position: relative;
-  top: 40%;
-  -ms-transform: translateY(-40%);
-  -webkit-transform: translateY(-40%);
-  transform: translateY(-40%);
 }
