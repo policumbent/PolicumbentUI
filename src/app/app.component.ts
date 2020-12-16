@@ -46,6 +46,6 @@ export class AppComponent implements OnDestroy{
   }
 
   isOnBikePage(): boolean {
-    return false;
+    return true;
   }
 }
