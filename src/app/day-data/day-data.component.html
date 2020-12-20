@@ -1,6 +1,7 @@
 <div class="content">
   <mat-toolbar class="foreground mat-elevation-z8" color="accent">
-    <span>{{bike | titlecase}} - {{date}} - {{device | titlecase}}</span>
+    <span *ngIf="bike!==undefined; else elseBlock">{{bike | titlecase}} - {{date}} - {{device | titlecase}}</span>
+    <ng-template #elseBlock><span >{{date}}</span></ng-template>
     <div class="right" >
 <!--      <button mat-stroked-button color="black">-->
 <!--          {{onlyRun ? 'All Data': 'Only Run'}}-->

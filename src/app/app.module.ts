@@ -47,6 +47,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 import { WindCardComponent } from './wind-card/wind-card.component';
 import {NgxGaugeModule} from 'ngx-gauge';
+import { WeatherDetailsComponent } from './weather-details/weather-details.component';
+import { InfoWeatherComponent } from './info-weather/info-weather.component';
+import { WeatherChartsComponent } from './weather-charts/weather-charts.component';
 
 
 @NgModule({
@@ -68,7 +71,10 @@ import {NgxGaugeModule} from 'ngx-gauge';
     UploadComponent,
     SelectionChartComponent,
     WorkInProgressComponent,
-    WindCardComponent
+    WindCardComponent,
+    WeatherDetailsComponent,
+    InfoWeatherComponent,
+    WeatherChartsComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,8 @@ import {ChartsComponent} from './charts/charts.component';
 import {AuthGuard} from './services/auth.guard';
 import {UploadComponent} from './upload/upload.component';
 import {WorkInProgressComponent} from './work-in-progress/work-in-progress.component';
+import {WeatherDetailsComponent} from './weather-details/weather-details.component';
+import {WeatherChartsComponent} from './weather-charts/weather-charts.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
@@ -37,10 +39,17 @@ const routes: Routes = [
         ]},
       {path: ':bikeName/upload', component: UploadComponent }
     ]},
-  {path: 'weather',
+  {path: 'weather', canActivate: [AuthGuard], component: WeatherComponent },
+  {path: 'weather/details',
     canActivate: [AuthGuard],
-    component: WeatherComponent, children: [
-      {path: '',  component: WorkInProgressComponent}
+    component: WeatherDetailsComponent, children: [
+      {path: '', component: InfoBikeComponent},
+      {path: ':date', component: DayDataComponent, children: [
+          // {path: 'chart', component: ChartComponent},
+          {path: '', component: StatisticsComponent},
+          {path: 'charts', component: WeatherChartsComponent},
+          {path: 'statistics', component: WorkInProgressComponent}
+        ] },
     ]}
 ];
 

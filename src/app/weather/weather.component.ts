@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Subscription, TimeInterval} from 'rxjs';
 import {Bike} from '../models/bike.model';
 import {MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -17,7 +17,7 @@ import {BikeData} from '../models/bikeData.model';
   styleUrls: ['./weather.component.css']
 })
 export class WeatherComponent implements OnInit, OnDestroy {
-  sub: Subscription;
+  interval: any;
   ws: WeatherStation[] = [];
   wsd: WeatherData[] = [];
 
@@ -41,7 +41,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.weatherService.getAllStations().subscribe(data => this.ws = data);
-    setInterval(
+    this.interval = setInterval(
       () => this.weatherService.getLastData().subscribe(data => {
         this.wsd = data;
         console.log(data);
@@ -58,6 +58,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    clearInterval(this.interval);
     // this.sub.unsubscribe();
     // this.subSidenav.unsubscribe();
   }

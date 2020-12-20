@@ -2,6 +2,7 @@ export class WeatherData{
   readonly stationId: number;
   readonly windSpeed: number;
   readonly windDirection: number;
+  readonly timestampT: Date;
   readonly timestamp: string;
   readonly temperature: number;
   readonly humidity: number;
@@ -21,5 +22,16 @@ export class WeatherData{
     this.latitude = latitude;
     this.longitude = longitude;
     this.pressure = pressure;
+    const t = timestamp.split(/[- :]/);
+    // console.log(timestamp);
+    // console.log(t);
+    this.timestampT = new Date(Date.UTC(
+      Number(t[0]),
+      Number(t[1]) - 1,
+      Number(t[2]),
+      Number(t[3]),
+      Number(t[4]),
+      Number(t[5]),
+    ));
   }
 }

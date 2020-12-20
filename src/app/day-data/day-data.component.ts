@@ -27,5 +27,4 @@ export class DayDataComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

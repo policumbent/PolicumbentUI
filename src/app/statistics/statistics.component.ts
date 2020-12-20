@@ -62,6 +62,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   getData(): void{
+    // differenziare tra weather e bikeData
     this.service.getData(
       this.bikeName,
       `${this.date} 00:00:00`,
