@@ -39,11 +39,11 @@ const routes: Routes = [
         ]},
       {path: ':bikeName/upload', component: UploadComponent }
     ]},
-  {path: 'weather', canActivate: [AuthGuard], component: WeatherComponent },
-  {path: 'weather/details',
+  // {path: 'weather', canActivate: [AuthGuard], component: WeatherComponent },
+  {path: 'weather',
     canActivate: [AuthGuard],
     component: WeatherDetailsComponent, children: [
-      {path: '', component: InfoBikeComponent},
+      {path: '', component: WeatherComponent},
       {path: ':date', component: DayDataComponent, children: [
           // {path: 'chart', component: ChartComponent},
           {path: '', component: StatisticsComponent},
