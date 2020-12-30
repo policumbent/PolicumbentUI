@@ -50,6 +50,9 @@ import {NgxGaugeModule} from 'ngx-gauge';
 import { WeatherDetailsComponent } from './weather-details/weather-details.component';
 import { InfoWeatherComponent } from './info-weather/info-weather.component';
 import { WeatherChartsComponent } from './weather-charts/weather-charts.component';
+import { AliceComponent } from './alice/alice.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -74,7 +77,8 @@ import { WeatherChartsComponent } from './weather-charts/weather-charts.componen
     WindCardComponent,
     WeatherDetailsComponent,
     InfoWeatherComponent,
-    WeatherChartsComponent
+    WeatherChartsComponent,
+    AliceComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +119,10 @@ import { WeatherChartsComponent } from './weather-charts/weather-charts.componen
     MatProgressBarModule,
     MatButtonToggleModule,
     MatCardModule,
-    NgxGaugeModule
+    NgxGaugeModule,
+    NgxMaterialTimepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {

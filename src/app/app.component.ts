@@ -17,6 +17,7 @@ export class AppComponent implements OnDestroy{
   sidenavState = false;
   links: Array<NavModel> = [
     new NavModel('./bikes', 'Bikes'),
+    new NavModel('./alice', 'Alice'),
     new NavModel('./weather', 'Weather Station')
   ];
   doLogin: Subscription;

@@ -1,0 +1,105 @@
+<div class="container" >
+<!--  todo: responsive card grid-->
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Alice Config</mat-card-title>
+      <mat-card-subtitle>Change Alice configuration</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a bike</mat-label>
+          <mat-select>
+            <mat-option value="option">TaurusX</mat-option>
+            <mat-option value="option">Taurus</mat-option>
+            <mat-option value="option">Phoenix</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a track</mat-label>
+          <mat-select>
+            <mat-option value="option">Battle Mountain</mat-option>
+            <mat-option value="option">Balocco</mat-option>
+            <mat-option value="option">Orbassano</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose start time</mat-label>
+          <input matInput aria-label="Start time" [ngxTimepicker]="fullTime" [format]="24" >
+          <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>CANCEL</button>
+      <button mat-button>SAVE</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Send Message</mat-card-title>
+      <mat-card-subtitle>Send message to Alice live updates</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Message</mat-label>
+          <input matInput placeholder="Message to send to Alice">
+        </mat-form-field>
+      </form>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>CANCEL</button>
+      <button mat-button>SAVE</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Messages</mat-card-title>
+      <mat-card-subtitle>Messages visualized on Alice</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="timestamp">
+          <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+          <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
+        </ng-container>
+        <ng-container matColumnDef="message">
+          <th mat-header-cell *matHeaderCellDef> Message </th>
+          <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+        </ng-container>
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef> Username </th>
+          <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element"> <mat-icon>delete</mat-icon> </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Notifications history</mat-card-title>
+      <mat-card-subtitle>Notifications send from bikes to Alice</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+     <p>
+       Bla bla bla
+     </p>
+    </mat-card-content>
+  </mat-card>
+</div>

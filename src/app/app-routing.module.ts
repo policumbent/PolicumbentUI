@@ -15,9 +15,11 @@ import {UploadComponent} from './upload/upload.component';
 import {WorkInProgressComponent} from './work-in-progress/work-in-progress.component';
 import {WeatherDetailsComponent} from './weather-details/weather-details.component';
 import {WeatherChartsComponent} from './weather-charts/weather-charts.component';
+import {AliceComponent} from './alice/alice.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
+  {path: 'alice', component: AliceComponent },
   {path: 'bikes',
     canActivate: [AuthGuard],
     children: [
