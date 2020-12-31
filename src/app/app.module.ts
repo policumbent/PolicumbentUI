@@ -53,6 +53,8 @@ import { WeatherChartsComponent } from './weather-charts/weather-charts.componen
 import { AliceComponent } from './alice/alice.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 @NgModule({
@@ -122,7 +124,9 @@ import {MatNativeDateModule} from '@angular/material/core';
     NgxGaugeModule,
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatGridListModule
   ],
   providers: [
     {
