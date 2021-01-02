@@ -19,7 +19,9 @@ import {AliceComponent} from './alice/alice.component';
 
 const routes: Routes = [
   {path: '', component: WelcomeComponent },
-  {path: 'alice', component: AliceComponent },
+  {path: 'alice',
+    canActivate: [AuthGuard],
+    component: AliceComponent },
   {path: 'bikes',
     canActivate: [AuthGuard],
     children: [
