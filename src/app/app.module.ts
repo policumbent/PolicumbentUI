@@ -55,7 +55,10 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatGridListModule} from '@angular/material/grid-list';
-// import {MessagingService} from './services/messaging.service';
+import {MessagingService} from './services/messaging.service';
+import { AngularFireModule } from '@angular/fire';
+import {environment} from '../environments/environment.prod';
+import {AngularFireMessagingModule} from '@angular/fire/messaging';
 
 
 @NgModule({
@@ -127,8 +130,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatDatepickerModule,
     MatNativeDateModule,
     MatPaginatorModule,
-    MatGridListModule
-  ],
+    MatGridListModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -139,7 +143,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {duration: 2500}
     },
-    // MessagingService
+    MessagingService
     ],
   bootstrap: [AppComponent]
 })

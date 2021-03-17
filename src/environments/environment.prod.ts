@@ -6,7 +6,7 @@ export const environment = {
     projectId: 'policumbent-2021',
     storageBucket: 'policumbent-2021.appspot.com',
     messagingSenderId: '1035121678665',
-    appId: '1:1035121678665:web:d7ef6b4cefacfea0bc6298',
-    measurementId: 'G-WDCMLTV6WJ'
+    appId: '1:1035121678665:web:da3934db3b713fdfbc6298',
+    measurementId: 'G-LMVT45YP7K'
 }
 };

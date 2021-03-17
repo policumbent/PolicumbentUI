@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs';
 import {LoginDialogComponent} from './login-dialog/login-dialog.component';
 import {LoginButtonComponent} from './login-button/login-button.component';
 import {SidenavService} from './services/sidenav.service';
-// import {MessagingService} from './services/messaging.service';
+import {MessagingService} from './services/messaging.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy{
     private router: Router,
     public authService: AuthService,
     private sidenavService: SidenavService,
-    // private messagingService: MessagingService
+    private messagingService: MessagingService
   ) {
     this.doLogin = route.queryParams.subscribe(
       q =>
@@ -40,8 +40,8 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    // this.messagingService.requestPermission();
-    // this.messagingService.receiveMessage();
+    this.messagingService.requestPermission();
+    this.messagingService.receiveMessage();
     }
 
   changeSidenavState(): void{
