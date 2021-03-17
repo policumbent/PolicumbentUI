@@ -50,7 +50,7 @@ export class AliceComponent implements OnInit, AfterViewInit {
       data => {
         this.notificationDataSource.data = data.sort((e1, e2) =>
           new Date(e2.timestamp).getTime() - new Date(e1.timestamp).getTime());
-        console.log(this.notificationDataSource.data);
+        // console.log(this.notificationDataSource.data);
       },
       error => console.log(error)
     );
@@ -103,21 +103,21 @@ export class AliceComponent implements OnInit, AfterViewInit {
 
   saveConfig(): void {
     console.log(this.formGroupConfig.valid);
-    console.log(this.formGroupConfig.controls.time.value);
+    console.log(this.formGroupConfig.controls.date.value);
     if (this.formGroupConfig.valid === true){
-      console.log('qua');
+      const date: Date = this.formGroupConfig.controls.date.value;
+      const dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      console.log(dateStr);
       const newConfig = new AliceConfig(
         this.formGroupConfig.controls.bike.value,
         this.formGroupConfig.controls.track.value,
-        this.formGroupConfig.controls.date.value,
+        dateStr,
         `${this.formGroupConfig.controls.time.value}:00`
       );
-      console.log('qua no');
-      // console.log(c);
       this.aliceService.saveConfig(newConfig)
         .subscribe(
           data => {
-            console.log(data);
+            // console.log(data);
             this.aliceConfig = newConfig;
           },
           error => console.log(error)
@@ -132,8 +132,8 @@ export class AliceComponent implements OnInit, AfterViewInit {
   }
 
   saveComment(): void {
-    console.log(this.formGroupMessage.valid);
-    console.log(this.formGroupMessage.controls.comment.value);
+    // console.log(this.formGroupMessage.valid);
+    // console.log(this.formGroupMessage.controls.comment.value);
     if (this.formGroupMessage.valid === true){
       const newComment = new AliceComment(
         this.formGroupMessage.controls.comment.value,
