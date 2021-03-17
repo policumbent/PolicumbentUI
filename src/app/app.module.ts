@@ -55,6 +55,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatGridListModule} from '@angular/material/grid-list';
+// import {MessagingService} from './services/messaging.service';
 
 
 @NgModule({
@@ -137,7 +138,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {duration: 2500}
-    }
+    },
+    // MessagingService
     ],
   bootstrap: [AppComponent]
 })

@@ -29,7 +29,7 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label>Choose start time</mat-label>
+            <mat-label>Choose start time (UTC)</mat-label>
             <input matInput aria-label="Start time" [ngxTimepicker]="time" [format]="24" formControlName="time" required>
             <ngx-material-timepicker #time [defaultTime]="defaultTime"></ngx-material-timepicker>
           </mat-form-field>
