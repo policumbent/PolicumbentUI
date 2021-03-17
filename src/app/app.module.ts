@@ -59,6 +59,7 @@ import {MessagingService} from './services/messaging.service';
 import { AngularFireModule } from '@angular/fire';
 import {environment} from '../environments/environment.prod';
 import {AngularFireMessagingModule} from '@angular/fire/messaging';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -132,7 +133,8 @@ import {AngularFireMessagingModule} from '@angular/fire/messaging';
     MatPaginatorModule,
     MatGridListModule,
     AngularFireMessagingModule,
-    AngularFireModule.initializeApp(environment.firebase),  ],
+    AngularFireModule.initializeApp(environment.firebase),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
