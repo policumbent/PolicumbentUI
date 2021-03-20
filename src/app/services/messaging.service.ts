@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {AliceConfig} from '../models/aliceConfig.model';
+import {catchError} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class MessagingService {
   currentMessage = new BehaviorSubject(null);
   constructor(
-    private angularFireMessaging: AngularFireMessaging
+    private angularFireMessaging: AngularFireMessaging,
+    private httpClient: HttpClient
   ) {
     this.angularFireMessaging.messages.subscribe(
       (messaging: AngularFireMessaging) => {
@@ -18,6 +22,7 @@ export class MessagingService {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
         console.log(token);
+        this.saveToken(token).subscribe(v => console.log(v));
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
@@ -31,4 +36,17 @@ export class MessagingService {
         this.currentMessage.next(payload);
       });
   }
+
+  // save notification token
+  saveToken(token: string): Observable<any> {
+    const v = {token, lang: 'it'};
+    return this.httpClient.put<any>(`https://policumbent-2021-default-rtdb.firebaseio.com/notifications/${token}.json`, v)
+      .pipe(
+        catchError(err => {
+          console.error(err);
+          return throwError('NotificationService saveToken error: ' + err.message);
+        })
+      );
+  }
+
 }
