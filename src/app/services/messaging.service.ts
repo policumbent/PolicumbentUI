@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import {AliceConfig} from '../models/aliceConfig.model';
 import {catchError} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 @Injectable()
@@ -39,14 +38,22 @@ export class MessagingService {
 
   // save notification token
   saveToken(token: string): Observable<any> {
-    const v = {token, lang: 'it'};
-    return this.httpClient.put<any>(`https://policumbent-2021-default-rtdb.firebaseio.com/notifications/${token}.json`, v)
+    const v = {token, lang: this.get_language_id()};
+    return this.httpClient.put<any>(`https://policumbent-2021-default-rtdb.firebaseio.com/notifications/ui/${token}.json`, v)
       .pipe(
         catchError(err => {
           console.error(err);
           return throwError('NotificationService saveToken error: ' + err.message);
         })
       );
+  }
+
+  get_language_id(): string {
+    const userLang = navigator.language;
+    if (userLang.includes('it')) {
+      return 'it';
+    }
+    return 'en';
   }
 
 }
